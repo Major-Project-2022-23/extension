@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Fake news detection Extension",
+  "version": "1.0",
+  "Description": "Retrieves the titles of current tab and display whether the news is fake or not",
+  "permissions": ["activeTab","storage"],
+  "action": {
+    "default_title": "Fake news detection Extension",
+    "default_icon": {
+      "16": "icons/icon-64.png"
+    },
+    "default_popup": "popup.html"
+  }
+}
