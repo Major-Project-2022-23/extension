@@ -6,15 +6,15 @@
     <script src="popup.js"></script>
   </head>
   <body>
-    <div class="container">
+    <div class="container" id="news-form">
       <h1 class="title">Fake News Detector</h1>
       <form id="inputForm">
         <label for="textInput">Enter the news title:</label>
-        <input type="text" id="textInput" required>
-        <button type="submit" class="submit-button">Check</button>
+        <input type="text" id="title-input" required>
+        <button type="submit" id="submit-btn" class="submit-button">Check</button>
       </form>
       <div id="resultContainer" class="result-container">
         <h3 class="result-title">Result:</h3>
-        <p id="resultText" class="result-text"></p>
+        <p id="resultText" id="prediction-scores" class="result-text"></p>
   </body>
 </html>

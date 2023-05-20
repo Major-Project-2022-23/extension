@@ -17,8 +17,10 @@ from transformers import XLNetTokenizer, XLNetForSequenceClassification
 from huggingface_hub import from_pretrained_keras
 import spacy_sentence_bert
 import csv 
+import asyncio
+import aiohttp
 
-from flask import Flask,render_template, request
+from flask import Flask,render_template, request, jsonify
 
 
 nlp = spacy_sentence_bert.load_model('en_nli_roberta_base')
@@ -190,24 +192,41 @@ def fake_news_detection(claim):
     k = predict(claim, evidence[1])
     print(k)
 
-    return (k,  evidence[1])
+    return (k)
 
 app = Flask(__name__)
-app.config['DEBUG'] = True
+app.config['DEBUG'] = False
 
 @app.route('/', methods=['GET'])
 def homepage():
     return render_template('index.html')
 
+async def prediction(title):
+    # Perform asynchronous calls to your ML model for prediction
+    # Replace the placeholders with actual code to process the title and get the prediction scores
+    prediction_scores = fake_news_detection(title)
+
+    return prediction_scores
+
+#async def handle_request(titles):
+#    tasks = [prediction(title) for title in titles]
+##    prediction_scores = await asyncio.gather(*tasks)
+    return prediction_scores
+
+
 @app.route('/predict', methods=['POST'])
-def background_process_test():
-    text = "Modi is prime minister of india"
-    fake_news_detection(text)
-    # tokens = final.split('[SEP]')
-    # print(tokens)
-    #response_data = {'status': 'OK', 'prediction': prediction, 'sources': sources, 'evidence': evidence, 'confidence': confidence}
-    # print(response_data)
-    return render_template('index.html')
+def handle_predict():
+    title = request.form.get('title') # Get the title from the request form
+    
+    # Call the predict function asynchronously
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    prediction_scores = loop.run_until_complete(prediction(title))
+    loop.close()
+
+    # Return the prediction scores as a JSON response
+    return jsonify(prediction_scores)
+    
 
 if __name__ == '__main__':
     app.run(port=7000, host='0.0.0.0')
