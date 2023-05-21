@@ -3,7 +3,7 @@ Flask==2.1.2
 Flask_Cors==3.0.10
 GoogleNews==1.6.8
 huggingface_hub==0.10.1
-numpy==1.23.5
+numpy==1.21.6
 pandas==1.5.3
 Requests==2.30.0
 spacy_sentence_bert==0.1.2
