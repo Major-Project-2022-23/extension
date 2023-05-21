@@ -19,6 +19,7 @@ import spacy_sentence_bert
 import csv 
 import asyncio
 import aiohttp
+import concurrent.futures
 
 from flask import Flask,render_template, request, jsonify
 from flask_cors import CORS
@@ -209,21 +210,34 @@ async def prediction(title):
 
     return prediction_scores
 
-#async def handle_request(titles):
-#    tasks = [prediction(title) for title in titles]
-##    prediction_scores = await asyncio.gather(*tasks)
-    return prediction_scores
+#async def handle_request(title):
+#    async with aiohttp.ClientSession() as session:
+#        async with session.post('http://127.0.0.1:7000/predict', data={'title': title}) as response:
+#            prediction_scores = await response.json()
+#            return prediction_scores
+def run_predict(title):
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
 
+    if title is None:
+        # Handle the case where the title is not provided
+        return {'error': 'Title is missing'}
+
+    prediction_scores = loop.run_until_complete(prediction(title))
+    loop.close()
+    return prediction_scores
 
 @app.route('/predict', methods=['POST'])
 def handle_predict():
     title = request.form.get('title') # Get the title from the request form
-    
-    # Call the predict function asynchronously
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    prediction_scores = loop.run_until_complete(prediction(title))
-    loop.close()
+    # Create a thread pool executor
+    executor = concurrent.futures.ThreadPoolExecutor()
+
+    # Submit the predict function to the executor
+    future = executor.submit(run_predict, title)
+
+    # Get the prediction scores from the future result
+    prediction_scores = future.result()
 
     # Return the prediction scores as a JSON response
     return jsonify(prediction_scores)

@@ -1,0 +1,16 @@
+aiohttp==3.8.4
+beautifulsoup4==4.12.2
+Flask==2.3.2
+Flask_Cors==3.0.10
+GoogleNews==1.6.7
+GoogleNews==1.6.8
+huggingface_hub==0.10.1
+numpy==1.23.5
+pandas==1.5.3
+Requests==2.30.0
+spacy_sentence_bert==0.1.2
+tensorflow==2.12.0
+tensorflow_intel==2.12.0
+texthero==1.0.5
+torch==1.12.1
+transformers==4.20.1
