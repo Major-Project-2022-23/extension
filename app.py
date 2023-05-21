@@ -18,11 +18,11 @@ from huggingface_hub import from_pretrained_keras
 import spacy_sentence_bert
 import csv 
 import asyncio
-import aiohttp
+from flask_cors import CORS
 import concurrent.futures
 
 from flask import Flask,render_template, request, jsonify
-from flask_cors import CORS
+
 
 nlp = spacy_sentence_bert.load_model('en_nli_roberta_base')
 model = from_pretrained_keras("keras-io/bert-semantic-similarity")
