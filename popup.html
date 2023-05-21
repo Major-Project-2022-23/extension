@@ -1,22 +1,52 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Fake news detection</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="popup.js"></script>
-  </head>
-  <body>
-    <div class="container" id="newsForm">
-      <h1 class="title">Fake News Detector</h1>
-      <form id="inputForm">
-        <label for="newsTitle">Enter the news title:</label>
-        <input type="text" id="newsTitle" required>
-        <button type="submit" id="submitBtn" class="submit-button">Check</button>
-      </form>
-      <div id="resultContainer">
-        <h3 class="result-title">Result:</h3>
-        <h3 id="ContradictionScore">Contradiction Score: </h3>
-      <h3 id="EntailmentScore">Entailment Score: </h3>
-      <h3 id="NeutralScore">Neutral Score: </h3>
-  </body>
+
+<head>
+  <title>Fake news detection</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="popup.js"></script>
+</head>
+
+<body>
+  <div class="container" id="newsForm">
+    <h1 class="title">Fake News Detector</h1>
+    <form id="inputForm">
+      <label for="textInput">Check if the news is real or fake!</label>
+      <textarea rows="5" id="newsInput" placeholder="Enter the news here..." required></textarea>
+      <button type="submit" class="submit-button" id="submitButton">Predict</button>
+    </form>
+
+    <div id="loading" style="display: none;">
+      <div class="lds-dual-ring"></div>
+      <h4>Generating Results</h4>
+      <p>This might take some time...</p>
+    </div>
+
+    <div id="results" style="display: none;">
+      <h3>Results</h3>
+      <div class="result-container">
+        <div class="piechart" id="pChart"></div>
+        <div>
+          <div class="result-content-container">
+            <div style="background-color: #5cb85c;" class="result-color-box"></div>
+            <p id="support-text"></p>
+          </div>
+
+          <div class="result-content-container">
+            <div style="background-color: #f0ad4e;" class="result-color-box"></div>
+            <p id="neutral-text"></p>
+          </div>
+
+          <div class="result-content-container">
+            <div style="background-color: #d9534f;" class="result-color-box"></div>
+            <p id="contradiction-text"></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+
 </html>
